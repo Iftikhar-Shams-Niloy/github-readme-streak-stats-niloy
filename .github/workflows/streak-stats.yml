@@ -18,9 +18,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Generate streak stats
-        uses: DenverCoder1/github-readme-streak-stats@main
+        uses: Iftikhar-Shams-Niloy/github-readme-streak-stats-niloy@main
         with:
-          options: user=${{ github.repository_owner }}&theme=default&disable_animations=true
+          options: user=${{ github.repository_owner }}&theme=dracula&disable_animations=false
           path: profile/streak.svg
           token: ${{ secrets.STREAK_STATS_TOKEN }}
 
