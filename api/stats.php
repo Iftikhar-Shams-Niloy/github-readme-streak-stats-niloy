@@ -168,12 +168,23 @@ function getGitHubTokens(): array
     if (isset($GLOBALS["ALL_TOKENS"])) {
         return $GLOBALS["ALL_TOKENS"];
     }
+    $readToken = static function (string $name): ?string {
+        $token = $_ENV[$name] ?? $_SERVER[$name] ?? getenv($name);
+        if ($token === false || $token === null || $token === "") {
+            return null;
+        }
+        return strval($token);
+    };
     // find all tokens in environment variables
-    $tokens = isset($_ENV["TOKEN"]) ? [$_ENV["TOKEN"]] : [];
+    $tokens = [];
+    $primaryToken = $readToken("TOKEN");
+    if ($primaryToken !== null) {
+        $tokens[] = $primaryToken;
+    }
     $index = 2;
-    while (isset($_ENV["TOKEN{$index}"])) {
+    while (($token = $readToken("TOKEN{$index}")) !== null) {
         // add token to list
-        $tokens[] = $_ENV["TOKEN{$index}"];
+        $tokens[] = $token;
         $index++;
     }
     // store for future use
